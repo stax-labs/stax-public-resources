@@ -3,9 +3,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   RoleName:
     Type: String
-    Default: StaxLinkingManagement
+    Default: stax-Provisioning
     AllowedValues:
-    - StaxLinkingManagement
+    - stax-Provisioning
     Description: The role name used for Stax control plane assertion
 
   StaxMasterAccountId:
@@ -13,11 +13,10 @@ Parameters:
     AllowedPattern: "^([0-9]){12}$"
 
 Resources: 
-  StaxLinkingManagement: 
+  StaxProvisioningRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Ref RoleName
-      Path: /
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -25,7 +24,7 @@ Resources:
             Principal:
               AWS: !Sub arn:aws:iam::${StaxMasterAccountId}:root
             Action: sts:AssumeRole
-      Path: /stax/
+      Path: /
       Policies:
         - PolicyName: "stax-access"
           PolicyDocument:
@@ -35,5 +34,6 @@ Resources:
               Action:
                 - "iam:*"
                 - "cloudformation:*"
+                - "organizations:*"
               Resource: "*"
 
