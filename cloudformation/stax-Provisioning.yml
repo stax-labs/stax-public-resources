@@ -35,5 +35,6 @@ Resources:
                 - "iam:*"
                 - "cloudformation:*"
                 - "organizations:*"
+                - "sts:AssumeRole"
               Resource: "*"
 
