@@ -50,5 +50,6 @@ Resources:
                   - "kms:*"
                   - "lambda:*"
                   - "cloudwatch:*"
+                  - "sts:AssumeRole"
                 Resource: "*"
 
