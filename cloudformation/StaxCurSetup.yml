@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  RoleName:
+    Type: String
+    Default: StaxCurSetup
+    AllowedValues:
+    - StaxCurSetup
+    Description: The role name used for Stax control plane assertion
+
+  StaxMasterAccountId:
+    Type: String
+    AllowedPattern: "^([0-9]){12}$"
+
+  DistributorId:
+    Type: String
+    AllowedPattern: "\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b"
+
+Resources:
+  StaxCurSetupRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Ref StaxMasterAccountId
+            Action:
+              - sts:AssumeRole
+            Condition:
+              StringEquals:
+                "sts:ExternalId": !Ref DistributorId
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
+        - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+        - "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+      Policies:
+        - PolicyName: "stax-cur-setup"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "cloudformation:*"
+                  - "iam:*"
+                  - "kms:*"
+                  - "lambda:*"
+                  - "cloudwatch:*"
+                Resource: "*"
+
