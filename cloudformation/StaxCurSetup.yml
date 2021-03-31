@@ -19,7 +19,6 @@ Parameters:
   CurBucket:
     Type: String
     Description: "The CUR S3 bucket name for Stax Billing"
-    AllowedPattern: "^arn:aws:s3:([^:\\n]*):([^:\\n]*):([^:\\/\\n]*)$"
 
 Resources:
   StaxCurSetupRole:
@@ -47,7 +46,5 @@ Resources:
                 Action:
                   - "s3:*"
                 Resource:
-                  - !Ref CurBucket
-                  - !Sub "${CurBucket}/*"
-
-
+                  - !Sub "arn:aws:s3:::${CurBucket}"
+                  - !Sub "arn:aws:s3:::${CurBucket}/*"
