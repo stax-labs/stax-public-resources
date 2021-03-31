@@ -34,22 +34,5 @@ Resources:
               StringEquals:
                 "sts:ExternalId": !Ref DistributorId
       ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
-        - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
         - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-        - "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
-      Policies:
-        - PolicyName: "stax-cur-setup"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: "Allow"
-                Action:
-                  - "cloudformation:*"
-                  - "iam:*"
-                  - "kms:*"
-                  - "lambda:*"
-                  - "cloudwatch:*"
-                  - "sts:AssumeRole"
-                Resource: "*"
 
