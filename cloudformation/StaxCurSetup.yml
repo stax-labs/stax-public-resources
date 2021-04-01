@@ -16,6 +16,10 @@ Parameters:
     Type: String
     AllowedPattern: "^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})$"
 
+  CurBucket:
+    Type: String
+    Description: "The CUR S3 bucket name for Stax Billing"
+
 Resources:
   StaxCurSetupRole:
     Type: AWS::IAM::Role
@@ -33,6 +37,14 @@ Resources:
             Condition:
               StringEquals:
                 "sts:ExternalId": !Ref DistributorId
-      ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-
+      Policies:
+        - PolicyName: "stax-cur-import"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "s3:*"
+                Resource:
+                  - !Sub "arn:aws:s3:::${CurBucket}"
+                  - !Sub "arn:aws:s3:::${CurBucket}/*"
