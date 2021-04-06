@@ -50,6 +50,5 @@ Resources:
                   - !Sub "arn:aws:s3:::${CurBucket}/*"
               - Effect: "Allow"
                 Action:
-                  - "kms:Decrypt"
                   - "cur:DescribeReportDefinitions"
                 Resource: "*"
