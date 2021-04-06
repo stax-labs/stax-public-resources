@@ -8,7 +8,7 @@ Parameters:
     - StaxCurSetup
     Description: The role name used for Stax control plane assertion
 
-  StaxMasterAccountId:
+  StaxBillingAccountId:
     Type: String
     AllowedPattern: "^([0-9]){12}$"
 
@@ -31,7 +31,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS:
-                - !Ref StaxMasterAccountId
+                - !Ref StaxBillingAccountId
             Action:
               - sts:AssumeRole
             Condition:
@@ -48,3 +48,8 @@ Resources:
                 Resource:
                   - !Sub "arn:aws:s3:::${CurBucket}"
                   - !Sub "arn:aws:s3:::${CurBucket}/*"
+              - Effect: "Allow"
+                Action:
+                  - "kms:Decrypt"
+                  - "cur:DescribeReportDefinitions"
+                Resource: "*"
